@@ -35,21 +35,6 @@ class App extends Component {
     this.props.toggle_task_form_dispatch();
   }
 
-  deleteItem = (id) => {
-    var {tasks} = this.props;
-    var index = tasks.findIndex((task, id) => {
-      return task.id === id;
-    });
-    console.log(index);
-    if (index !== -1) {
-      tasks.splice(index, 1);
-      this.setState({
-        tasks: tasks
-      });
-      localStorage.setItem('tasks', JSON.stringify(tasks));
-    }
-    this.closeTaskForm();
-  }
   // findIndex = (id) => {
   //   var { tasks } = this.state;
   //   var result = -1;
@@ -165,7 +150,6 @@ class App extends Component {
             <div className="row mt-15">
               <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <TaskList
-                  deleteItem={this.deleteItem}
                   editItem={this.editItem}
                   filterItems={this.filterItems}
                 />
