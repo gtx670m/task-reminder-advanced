@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../actions/index';
 
 class TaskItem extends Component {
   toggleStatus = () => {
-    this.props.toggleStatus(this.props.task.id);
+    this.props.toggle_task_status(this.props.task.id);
   }
   deleteItem = () => {
-    this.props.deleteItem(this.props.task.id);
+    this.props.delete_item_dispatch(this.props.task.id);
   }
   editItem = () => {
     this.props.editItem(this.props.task.id);
@@ -18,9 +20,9 @@ class TaskItem extends Component {
         <td>{task.name}</td>
         <td className="text-center">
           <span
-            className={task.status === true ? "label label-success" : "label label-danger"}
+            className={this.props.task.status === true ? "label label-success" : "label label-danger"}
             onClick={this.toggleStatus}
-          >{(task.status === true) ? "Kích Hoạt" : "Hủy"}
+          >{(this.props.task.status === true) ? "Kích Hoạt" : "Hủy"}
           </span>
         </td>
         <td>
@@ -47,4 +49,19 @@ class TaskItem extends Component {
   }
 }
 
-export default TaskItem;
+const mapStateToProps = state => {
+  return {
+    id: state.id,
+  }
+}
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    toggle_task_status: (id) => {
+      dispatch(actions.toggle_task_status_action(id));
+    },
+    delete_item_dispatch: (id) => {
+      dispatch(actions.delete_item_action(id));
+    }
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(TaskItem);
