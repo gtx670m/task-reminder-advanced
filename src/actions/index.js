@@ -39,3 +39,9 @@ export const delete_item_action = (id) => {
         id
     }
 }
+export const edit_item_action = (task) => {
+    return {
+        type: types.EDIT_ITEM,
+        task
+    }
+}

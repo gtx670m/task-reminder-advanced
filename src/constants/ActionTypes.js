@@ -5,3 +5,4 @@ export const CLOSE_TASK_FORM = 'CLOSE_TASK_FORM';
 export const OPEN_TASK_FORM = 'OPEN_TASK_FORM';
 export const TOGGLE_TASK_STATUS = 'TOGGLE_TASK_STATUS';
 export const DELETE_ITEM = 'DELETE_ITEM';
+export const EDIT_ITEM = 'EDIT_ITEM';

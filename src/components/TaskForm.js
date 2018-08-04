@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
+import Control from './Control';
 
 class TaskForm extends Component {
   constructor(props) {
@@ -62,12 +63,13 @@ class TaskForm extends Component {
     })
   }
   render() {
+    if (!this.props.toggle_task_form) return '';
     return (
       <div>
         <div className="panel panel-warning">
           <div className="panel-heading">
             <h3 className="panel-title">
-              {this.state.id ? "Sửa công việc" : "Thêm công việc"}
+              {this.props.editing_data.id ? "Sửa công việc" : "Thêm công việc"}
               <span
                 className="fa fa-times-circle text-right"
                 onClick={this.closeTaskForm}
@@ -75,14 +77,14 @@ class TaskForm extends Component {
             </h3>
           </div>
           <div className="panel-body">
-            <form 
+            <form
               onSubmit={this.onSubmit}>
               <div className="form-group">
                 <label>Tên: </label>
                 <input
-                  type="text" className="form-control" placeholder="type here"
+                  type="text" className="form-control" placeholder="Task name"
                   name="name"
-                  value={this.state.name}
+                  value={this.props.editing_data.name}
                   onChange={this.onChange}
                 />
                 <label>Trạng thái: </label>
@@ -90,7 +92,7 @@ class TaskForm extends Component {
                   className="form-control"
                   required="required"
                   name="status"
-                  value={this.state.status}
+                  value={this.props.editing_data.status}
                   onChange={this.onChange}
                 >
                   <option value={true}>Kích Hoạt</option>
@@ -118,9 +120,12 @@ class TaskForm extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
 
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    toggle_task_form: state.toggle_task_form,
+    editing_data: state.editing_data
   }
 }
 

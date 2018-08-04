@@ -10,7 +10,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      editingTaskContent: null,
       filter: {
         name: '',
         status: -1
@@ -45,17 +44,7 @@ class App extends Component {
   //   });
   //   return result;
   // }
-  editItem = (id) => {
-    var { tasks } = this.state;
-    var index = tasks.findIndex((task, id) => {
-      return task.id === id;
-    });
-    var editingTaskContent = tasks[index];
-    this.setState({
-      editingTaskContent: editingTaskContent
-    });
-    this.openTaskForm();
-  }
+  
   filterItems = (filterName, filterStatus) => {
     filterStatus = parseInt(filterStatus, 10);
     this.setState({
@@ -118,12 +107,13 @@ class App extends Component {
     //     else return 0;
     //   })
     // }
-    var elmTaskForm = toggle_task_form ?
-      <TaskForm
-        closeTaskForm={this.closeTaskForm}
 
-        task={editingTaskContent}
-      /> : '';
+    // var elmTaskForm = toggle_task_form ?
+    //   <TaskForm
+    //     closeTaskForm={this.closeTaskForm}
+    //     task={editingTaskContent}
+    //   /> : '';
+
     return (
       <div className="container">
         <div className="text-center">
@@ -131,7 +121,7 @@ class App extends Component {
         </div>
         <div className="row">
           <div className={toggle_task_form ? "col-xs-4 col-sm-4 col-md-4 col-lg-4" : ""}>
-            {elmTaskForm}
+            <TaskForm/>
           </div>
           <div className={toggle_task_form ? "col-xs-8 col-sm-8 col-md-8 col-lg-8" : "col-xs-12 col-sm-12 col-md-12 col-lg-12"}>
             <button
@@ -150,7 +140,6 @@ class App extends Component {
             <div className="row mt-15">
               <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <TaskList
-                  editItem={this.editItem}
                   filterItems={this.filterItems}
                 />
               </div>

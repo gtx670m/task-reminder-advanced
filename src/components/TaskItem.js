@@ -8,9 +8,11 @@ class TaskItem extends Component {
   }
   deleteItem = () => {
     this.props.delete_item_dispatch(this.props.task.id);
+    this.props.close_task_form_dispatch();
   }
   editItem = () => {
-    this.props.editItem(this.props.task.id);
+    this.props.open_task_form_dispatch();
+    this.props.edit_item_dispatch(this.props.task);
   }
   render() {
     var { task, index } = this.props;
@@ -22,7 +24,7 @@ class TaskItem extends Component {
           <span
             className={this.props.task.status === true ? "label label-success" : "label label-danger"}
             onClick={this.toggleStatus}
-          >{(this.props.task.status === true) ? "Kích Hoạt" : "Hủy"}
+          >{(this.props.task.status === true) ? "Alarm On" : "Alarm Off"}
           </span>
         </td>
         <td>
@@ -30,18 +32,12 @@ class TaskItem extends Component {
             type="button"
             className="btn btn-warning"
             onClick={this.editItem}
-          >
-            <i className="fas fa-pencil-alt mr-5">
-            </i>
-            Sửa
+          ><i className="fas fa-pencil-alt mr-5"></i>
           </button>&nbsp;
           <button
             type="button" className="btn btn-danger"
             onClick={this.deleteItem}
-          >
-            <i className="fa fa-trash mr-5">
-            </i>
-            Xóa
+          ><i className="fa fa-trash mr-5"></i>
           </button>
         </td>
       </tr>
@@ -51,7 +47,6 @@ class TaskItem extends Component {
 
 const mapStateToProps = state => {
   return {
-    id: state.id,
   }
 }
 const mapDispatchToProps = (dispatch, props) => {
@@ -61,6 +56,15 @@ const mapDispatchToProps = (dispatch, props) => {
     },
     delete_item_dispatch: (id) => {
       dispatch(actions.delete_item_action(id));
+    },
+    close_task_form_dispatch: () => {
+      dispatch(actions.close_task_form());
+    },
+    edit_item_dispatch: (task) => {
+      dispatch(actions.edit_item_action(task));
+    },
+    open_task_form_dispatch: () => {
+      dispatch(actions.open_task_form());
     }
   }
 }

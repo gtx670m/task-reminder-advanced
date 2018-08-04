@@ -31,9 +31,7 @@ class TaskList extends Component {
     var { filterName, filterStatus } = this.state;
     var elmTask = tasks.map((task, index) => {
       return (
-        <TaskItem key={task.id} task={task} index={index}
-          deleteItem={this.deleteItem}
-          editItem={this.editItem} />
+        <TaskItem key={task.id} task={task} index={index}/>
       )
     });
     return (
@@ -41,9 +39,9 @@ class TaskList extends Component {
         <table className="table table-bordered table-hover mt-15">
           <thead>
             <tr>
-              <th>STT</th>
-              <th>Tên</th>
-              <th>Trạng Thái</th>
+              <th>#</th>
+              <th>Name</th>
+              <th>Alarm</th>
               <th>Hành Động</th>
             </tr>
           </thead>
@@ -66,7 +64,7 @@ class TaskList extends Component {
                   value={filterStatus}
                   onChange={this.onChange}
                 >
-                  <option value={-1}>Tất cả</option>
+                  <option value={-1}>All</option>
                   <option value={0}>Ẩn</option>
                   <option value={1}>Kích Hoạt</option>
                 </select>
