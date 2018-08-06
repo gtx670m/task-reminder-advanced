@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TaskItem from './TaskItem';
 import { connect } from 'react-redux';
+import * as actions from '../actions/index';
 
 class TaskList extends Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class TaskList extends Component {
     this.setState({
       [name]: value
     });
+    this.props.filter_list_dispatch(this.state);
   }
   render() {
     var { tasks } = this.props;
@@ -84,5 +86,12 @@ const mapStateToProps = state => {
     tasks: state.tasks,
   } 
 };
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    filter_list_dispatch: (data) => {
+      dispatch(actions.filter_list_action(data));
+    }
+  };
+}
 
-export default connect(mapStateToProps, null)(TaskList);
+export default connect(mapStateToProps, mapDispatchToProps)(TaskList);

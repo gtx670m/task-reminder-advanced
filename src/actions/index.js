@@ -6,9 +6,9 @@ export const show_list_action = () => {
     }
 }
 
-export const add_item_action = (task) => {
+export const save_item_action = (task) => {
     return {
-        type: types.ADD_ITEM,
+        type: types.SAVE_ITEM,
         task: task
     }
 }
@@ -43,5 +43,18 @@ export const edit_item_action = (task) => {
     return {
         type: types.EDIT_ITEM,
         task
+    }
+}
+
+export const clear_editing_data_action = () => {
+    return{
+        type:types.CLEAR_EDITING_DATA,
+    }
+}
+
+export const filter_list_action = (data) => {
+    return {
+        type:types.FILTER_LIST,
+        data
     }
 }

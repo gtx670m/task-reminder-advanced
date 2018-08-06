@@ -31,7 +31,12 @@ class App extends Component {
     //     editingTaskContent: null
     //   });
     // }
-    this.props.toggle_task_form_dispatch();
+    if (this.props.editing_data.id) {
+      this.props.clear_editing_data_dispatch();
+    } else {
+      this.props.toggle_task_form_dispatch();
+      this.props.clear_editing_data_dispatch();
+    }
   }
 
   // findIndex = (id) => {
@@ -44,7 +49,7 @@ class App extends Component {
   //   });
   //   return result;
   // }
-  
+
   filterItems = (filterName, filterStatus) => {
     filterStatus = parseInt(filterStatus, 10);
     this.setState({
@@ -68,28 +73,15 @@ class App extends Component {
   render() {
     var {
       editingTaskContent,
-      // filter,
+      filter,
       // keyword,
       sortBy,
       sortValue
     } = this.state; //var tasks = this.state.tasks
 
     var { toggle_task_form } = this.props;
-    // if (filter) {
-    //   if (filter.name) {
-    //     tasks = tasks.filter((task) => {
-    //       return task.name.toLowerCase().indexOf(filter.name) !== -1
-    //     })
-    //   }
-    //   tasks = tasks.filter((task) => {
-    //     if (filter.status === -1) {
-    //       return task;
-    //     } else {
-    //       return task.status === (filter.status === 1 ? true : false)
-    //     }
-    //   });
-    // }
-    // if (keyword) {
+
+    // if (keyword) {S
     //   tasks = tasks.filter((task) => {
     //     return task.name.toLowerCase().indexOf(keyword) !== -1
     //   })
@@ -121,7 +113,7 @@ class App extends Component {
         </div>
         <div className="row">
           <div className={toggle_task_form ? "col-xs-4 col-sm-4 col-md-4 col-lg-4" : ""}>
-            <TaskForm/>
+            <TaskForm />
           </div>
           <div className={toggle_task_form ? "col-xs-8 col-sm-8 col-md-8 col-lg-8" : "col-xs-12 col-sm-12 col-md-12 col-lg-12"}>
             <button
@@ -155,13 +147,20 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
     toggle_task_form: state.toggle_task_form,
-    tasks: state
+    tasks: state,
+    editing_data: state.editing_data
   };
 }
 const mapDispatchToProps = (dispatch, props) => {
   return {
     toggle_task_form_dispatch: () => {
       dispatch(actions.toggle_task_form());
+    },
+    clear_editing_data_dispatch: () => {
+      dispatch(actions.clear_editing_data_action());
+    },
+    filter_list_dispatch: (data) => {
+      dispatch(actions.filter_list_action(data));
     }
   };
 }

@@ -12,30 +12,14 @@ class TaskForm extends Component {
       status: true
     }
   }
-  componentWillMount() {
-    var { task } = this.props;
-    if (this.props.task) {
-      this.setState({
-        id: task.id,
-        name: task.name,
-        status: task.status
-      });
-    }
-  }
-
   componentWillReceiveProps(nextProps) {
-    var { task } = nextProps;
-    if (nextProps && nextProps.task) {
+    var { editing_data } = nextProps;
+    console.log(editing_data);
+    if (nextProps && nextProps.editing_data) {
       this.setState({
-        id: task.id,
-        name: task.name,
-        status: task.status
-      });
-    } else if (!nextProps.task) {
-      this.setState({
-        id: '',
-        name: '',
-        status: true
+        id: editing_data.id,
+        name: editing_data.name,
+        status: editing_data.status
       });
     }
   }
@@ -53,8 +37,9 @@ class TaskForm extends Component {
   }
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.add_item_dispatch(this.state);
+    this.props.save_item_dispatch(this.state);
     this.props.close_task_form_dispatch();
+    this.props.clear_editing_data_dispatch();
   }
   clearForm = () => {
     this.setState({
@@ -63,13 +48,13 @@ class TaskForm extends Component {
     })
   }
   render() {
-    if (!this.props.toggle_task_form) return '';
+    if (!this.props.toggle_task_form) return null;
     return (
       <div>
         <div className="panel panel-warning">
           <div className="panel-heading">
             <h3 className="panel-title">
-              {this.props.editing_data.id ? "Sửa công việc" : "Thêm công việc"}
+              {this.state.id ? "Sửa công việc" : "Thêm công việc"}
               <span
                 className="fa fa-times-circle text-right"
                 onClick={this.closeTaskForm}
@@ -84,7 +69,7 @@ class TaskForm extends Component {
                 <input
                   type="text" className="form-control" placeholder="Task name"
                   name="name"
-                  value={this.props.editing_data.name}
+                  value={this.state.name}
                   onChange={this.onChange}
                 />
                 <label>Trạng thái: </label>
@@ -92,7 +77,7 @@ class TaskForm extends Component {
                   className="form-control"
                   required="required"
                   name="status"
-                  value={this.props.editing_data.status}
+                  value={this.state.status}
                   onChange={this.onChange}
                 >
                   <option value={true}>Kích Hoạt</option>
@@ -122,7 +107,6 @@ class TaskForm extends Component {
 
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     toggle_task_form: state.toggle_task_form,
     editing_data: state.editing_data
@@ -131,11 +115,14 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    add_item_dispatch: (task) => {
-      dispatch(actions.add_item_action(task));
+    save_item_dispatch: (task) => {
+      dispatch(actions.save_item_action(task));
     },
     close_task_form_dispatch: () => {
       dispatch(actions.close_task_form());
+    },
+    clear_editing_data_dispatch: () => {
+      dispatch(actions.clear_editing_data_action());
     }
   }
 }

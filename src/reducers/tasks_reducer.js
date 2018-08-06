@@ -9,14 +9,26 @@ var myReducer = (state = initialState, action) => {
         case types.SHOW_LIST:
             return state;
         /////////////////////////////////////////////////////////
-        case types.ADD_ITEM:
-            const { name, status } = action.task;
+        case types.SAVE_ITEM:
+            const { id, name, status } = action.task;
             var newItem = {
-                id: randomString(),
+                id: id,
                 name: name,
                 status: status === "false" ? false : true
             }
-            state.push(newItem);
+            if (!newItem.id) {
+                newItem = {
+                    id: randomString(),
+                    name: name,
+                    status: status === "false" ? false : true
+                }
+                state.push(newItem);
+            } else {
+                index = state.findIndex((state) => {
+                    return id === state.id;
+                })
+                state[index] = newItem;
+            }
             localStorage.setItem('tasks', JSON.stringify(state));
             return [...state];
         /////////////////////////////////////////////////////////
@@ -43,6 +55,24 @@ var myReducer = (state = initialState, action) => {
             localStorage.setItem('tasks', JSON.stringify(state));
             return [...state]
         /////////////////////////////////////////////
+        case types.FILTER_LIST:
+        console.log(action);
+            if (action) {
+                if (action.name) {
+                    
+                    state = state.filter((state) => {
+                        return state.name.toLowerCase().indexOf(action.name.toLowerCase()) !== -1
+                    });
+                }
+                // state = state.filter((state) => {
+                //     if (state.status === -1) {
+                //         return state;
+                //     } else {
+                //         return state.status === (action.status === 1 ? true : false)
+                //     }
+                // });
+            }
+            return [...state]
         default: return state;
     }
 };
