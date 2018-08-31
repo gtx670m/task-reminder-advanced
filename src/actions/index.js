@@ -52,9 +52,22 @@ export const clear_editing_data_action = () => {
     }
 }
 
-export const filter_list_action = (data) => {
+export const filter_list_action = (filter) => {
     return {
         type:types.FILTER_LIST,
-        data
+        filter
+    }
+}
+export const search_item_action = (keyword) => {
+    return{
+        type:types.SEARCH_ITEM,
+        keyword
+    }
+}
+export const sort_item_action = (sortBy, sortValue) => {
+    return{
+        type:types.SORT_ITEM,
+        sortBy, 
+        sortValue
     }
 }

@@ -55,24 +55,7 @@ var myReducer = (state = initialState, action) => {
             localStorage.setItem('tasks', JSON.stringify(state));
             return [...state]
         /////////////////////////////////////////////
-        case types.FILTER_LIST:
-        console.log(action);
-            if (action) {
-                if (action.name) {
-                    
-                    state = state.filter((state) => {
-                        return state.name.toLowerCase().indexOf(action.name.toLowerCase()) !== -1
-                    });
-                }
-                // state = state.filter((state) => {
-                //     if (state.status === -1) {
-                //         return state;
-                //     } else {
-                //         return state.status === (action.status === 1 ? true : false)
-                //     }
-                // });
-            }
-            return [...state]
+            
         default: return state;
     }
 };

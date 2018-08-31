@@ -15,7 +15,8 @@ var myReducer = (state = initialState, action) => {
                 id: '',
                 name: '',
                 status: true
-            }       
+            } 
+            return state;      
         default: return state;
     }
 };

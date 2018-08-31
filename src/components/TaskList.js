@@ -18,22 +18,56 @@ class TaskList extends Component {
     var target = event.target;
     var name = target.name;
     var value = target.value;
-    this.props.filterItems(
-      name === 'filterName' ? value : this.state.filterName,
-      name === 'filterStatus' ? value : this.state.filterStatus,
-    );
+    var filter = {
+      filterName: name === 'filterName' ? value : this.state.filterName,
+      filterStatus: name === 'filterStatus' ? value : this.state.filterStatus
+    }
+    this.props.filter_list_dispatch(filter);
     this.setState({
       [name]: value
     });
-    this.props.filter_list_dispatch(this.state);
+
   }
   render() {
-    var { tasks } = this.props;
-    // var tasks = this.props.tasks;
-    var { filterName, filterStatus } = this.state;
+    var { tasks, keyword, sortBy, sortValue } = this.props;
+    var { filterName, filterStatus } = this.props.filter_list;
+    if (filterName) {
+      tasks = tasks.filter((task) => {
+        return task.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1;
+      });
+    }
+
+    tasks = tasks.filter((task) => {
+      if (filterStatus === -1) {
+        return task;
+      }
+      else {
+        return task.status === (filterStatus === 1 ?
+          true : false);
+      }
+    })
+
+    tasks = tasks.filter((task) => {
+      return task.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1;
+    })
+
+    if (sortBy === 'name') {
+      tasks.sort((a, b) => {
+        if(a.name > b.name) return sortValue;
+        else if (a.name < b.name) return -sortValue;
+        else return 0;
+      })
+    } else {
+      tasks.sort((a, b) => {
+        if(a.status > b.status) return -sortValue;
+        else if (a.status < b.status) return sortValue;
+        else return 0;
+      })
+    }
+
     var elmTask = tasks.map((task, index) => {
       return (
-        <TaskItem key={task.id} task={task} index={index}/>
+        <TaskItem key={task.id} task={task} index={index} />
       )
     });
     return (
@@ -84,12 +118,16 @@ class TaskList extends Component {
 const mapStateToProps = state => {
   return {
     tasks: state.tasks,
-  } 
+    filter_list: state.filter_list,
+    keyword: state.search_item.keyword,
+    sortBy: state.sort_item.sortBy,
+    sortValue: state.sort_item.sortValue
+  }
 };
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    filter_list_dispatch: (data) => {
-      dispatch(actions.filter_list_action(data));
+    filter_list_dispatch: (filter) => {
+      dispatch(actions.filter_list_action(filter));
     }
   };
 }

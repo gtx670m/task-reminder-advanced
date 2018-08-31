@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
-import Control from './Control';
 
 class TaskForm extends Component {
   constructor(props) {
@@ -14,7 +13,6 @@ class TaskForm extends Component {
   }
   componentWillReceiveProps(nextProps) {
     var { editing_data } = nextProps;
-    console.log(editing_data);
     if (nextProps && nextProps.editing_data) {
       this.setState({
         id: editing_data.id,

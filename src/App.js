@@ -7,57 +7,13 @@ import { connect } from 'react-redux';
 import * as actions from './actions/index';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      filter: {
-        name: '',
-        status: -1
-      },
-      keyword: '',
-      sortBy: 'name',
-      sortValue: 1
-    }
-  }
   toggleTaskForm = () => {
-    // if (this.state.isDisplayForm && this.state.editingTaskContent) {
-    //   this.setState({
-    //     isDisplayForm: true,
-    //     editingTaskContent: null
-    //   });
-    // } else {
-    //   this.setState({
-    //     isDisplayForm: !this.state.isDisplayForm,
-    //     editingTaskContent: null
-    //   });
-    // }
     if (this.props.editing_data.id) {
       this.props.clear_editing_data_dispatch();
     } else {
       this.props.toggle_task_form_dispatch();
       this.props.clear_editing_data_dispatch();
     }
-  }
-
-  // findIndex = (id) => {
-  //   var { tasks } = this.state;
-  //   var result = -1;
-  //   tasks.forEach((task, index) => {
-  //     if (id === task.id) {
-  //       result = index;
-  //     }
-  //   });
-  //   return result;
-  // }
-
-  filterItems = (filterName, filterStatus) => {
-    filterStatus = parseInt(filterStatus, 10);
-    this.setState({
-      filter: {
-        name: filterName.toLowerCase(),
-        status: filterStatus
-      }
-    });
   }
   onSearch = (keyword) => {
     this.setState({
@@ -71,41 +27,7 @@ class App extends Component {
     });
   }
   render() {
-    var {
-      editingTaskContent,
-      filter,
-      // keyword,
-      sortBy,
-      sortValue
-    } = this.state; //var tasks = this.state.tasks
-
     var { toggle_task_form } = this.props;
-
-    // if (keyword) {S
-    //   tasks = tasks.filter((task) => {
-    //     return task.name.toLowerCase().indexOf(keyword) !== -1
-    //   })
-    // }
-    // if (sortBy === 'name') {
-    //   tasks.sort((a, b) => {
-    //     if(a.name > b.name) return sortValue;
-    //     else if (a.name < b.name) return -sortValue;
-    //     else return 0;
-    //   })
-    // } else {
-    //   tasks.sort((a, b) => {
-    //     if(a.status > b.status) return -sortValue;
-    //     else if (a.status < b.status) return sortValue;
-    //     else return 0;
-    //   })
-    // }
-
-    // var elmTaskForm = toggle_task_form ?
-    //   <TaskForm
-    //     closeTaskForm={this.closeTaskForm}
-    //     task={editingTaskContent}
-    //   /> : '';
-
     return (
       <div className="container">
         <div className="text-center">
@@ -123,17 +45,10 @@ class App extends Component {
             ><i className="fa fa-plus mr-5"></i>
               Add new Task
             </button>
-            <Control
-              onSearch={this.onSearch}
-              onSort={this.onSort}
-              sortBy={sortBy}
-              sortValue={sortValue}
-            />
+            <Control />
             <div className="row mt-15">
               <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <TaskList
-                  filterItems={this.filterItems}
-                />
+                <TaskList />
               </div>
             </div>
 

@@ -6,10 +6,7 @@ class Control extends Component {
     return (
       <div className="row mt-5">
         <Search onSearch={this.props.onSearch} />
-        <Sort
-          sortBy={this.props.sortBy}
-          sortValue={this.props.sortValue}
-          onSort={this.props.onSort} />
+        <Sort />
       </div>
     );
   }
